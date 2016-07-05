@@ -95,8 +95,8 @@ var Docxtemplater = class Docxtemplater {
 		obj.fileTypeConfig = this.fileTypeConfig;
 		return new Docxtemplater.XmlTemplater(usedData, obj);
 	}
-	getFullText(path) {
-		return this.createTemplateClass(path || this.fileTypeConfig.textPath).getFullText();
+	getFullText(path, options) {
+		return this.createTemplateClass(path || this.fileTypeConfig.textPath).getFullText(options);
 	}
 };
 

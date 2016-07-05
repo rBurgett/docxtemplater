@@ -9,12 +9,13 @@ var ModuleManager = require("./moduleManager");
 var CompiledXmlTag = require("./compiledXmlTag");
 var Errors = require("./errors");
 
-function getFullText(content, tagsXmlArray) {
+function getFullText(content, tagsXmlArray, options) {
+	options = options || {};
 	var matcher = xmlMatcher(content, tagsXmlArray);
 	var output = matcher.matches.map(function (match) {
 		return match.array[2];
 	});
-	return DocUtils.wordToUtf8(DocUtils.convertSpaces(output.join("")));
+	return DocUtils.wordToUtf8(DocUtils.convertSpaces(output.join(options.separator || "")));
 }
 
 module.exports = class XmlTemplater {
@@ -58,7 +59,7 @@ module.exports = class XmlTemplater {
 		Object.keys(DocUtils.defaults).map((key) => { obj[key] = this[key]; });
 		return obj;
 	}
-	getFullText() { return getFullText(this.content, this.fileTypeConfig.tagsXmlArray); }
+	getFullText(options) { return getFullText(this.content, this.fileTypeConfig.tagsXmlArray, options); }
 	updateModuleManager() {
 		this.moduleManager.setInstance("xmlTemplater", this);
 		this.moduleManager.setInstance("templaterState", this.templaterState);
